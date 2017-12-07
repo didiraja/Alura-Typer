@@ -1,0 +1,73 @@
+<head>
+    
+    <meta charset="UTF-8">
+
+    <title>Alura Typer</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">    
+</head>
+<body>
+    
+    <div class="container center">
+    
+        <h1>Alura Typer</h1>
+        <p class="frase">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+        <ul class="informacoes center">
+            <li>
+                <i class="small material-icons icones">description</i>
+                <span id="tamanho-frase">19</span> palavras
+            </li>
+            <li>
+                <i class="small material-icons icones">query_builder</i>
+                <span id="tempo-digitacao">3</span> segundos
+            </li>
+        </ul>
+
+        <textarea class="campo-digitacao" rows="8" cols="40"></textarea>
+
+        <a id="botao-reiniciar" class="btn-floating btn-large waves-effect waves-light red">
+            <i class="material-icons">restore</i>
+        </a>
+
+        <ul class="center">
+            <li><span id="contador-caracteres">0</span> caracteres</li>
+            <li><span id="contador-palavras">0</span> palavras</li>
+        </ul>
+        
+        <section class="placar">
+        
+            <h3>Placar</h3>
+            
+                <table class="centered bordered">
+                    
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>No. de Palavras</th>
+                            <th>Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Usuario Exemplo</td>
+                            <td>99</td>
+                            <td>
+                                <a href="#" class="botao-remover"><i class="small material-icons">delete</i> </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+        </section>
+    
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="js/main.js"></script>
+    
+</body>
