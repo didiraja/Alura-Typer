@@ -1,3 +1,6 @@
+var campo = $(".campo-digitacao");
+var tempoInicial = $("#tempo-digitacao").text();
+
 function atualizaTamanhoFrase() {
     
     var frase = $(".frase").text();
@@ -7,12 +10,16 @@ function atualizaTamanhoFrase() {
     
 }
 
-var campo = $(".campo-digitacao");
-var tempoInicial = $("#tempo-digitacao").text();
+function atualizaTempoInicial(tempo) {
+    tempoInicial = tempo;
+    $("#tempo-digitacao").text(tempo);
+}
 
 function inicializaContadores() {
 
     campo.on("input", function() {
+        
+        var frase = $(".frase").text();
     
         var conteudo = campo.val();
 
@@ -30,8 +37,13 @@ function inicializaCronometro() {
 
     var tempoRestante = $("#tempo-digitacao").text();
     campo.one("focus", function(){
+        
+        var tempoRestante = $("#tempo-digitacao").text();
+        
         $("#botao-reiniciar").attr("disabled",true);
+        
         var cronometroID = setInterval(function() {
+            
             tempoRestante--;
             $("#tempo-digitacao").text(tempoRestante);
             if (tempoRestante < 1) {
@@ -67,8 +79,10 @@ function reiniciaJogo () {
 }
 
 function inicializaMarcadores() {
-    var frase = $(".frase").text();
+    
     campo.on("input", function() {
+        
+        var frase = $(".frase").text();
         
         var digitado = campo.val();
         var comparavel = frase.substr(0, digitado.length);
@@ -84,6 +98,30 @@ function inicializaMarcadores() {
     });
 }
 
+function fraseAleatoria() {
+    
+    $("#spinner").toggle();
+    
+    $.get("//localhost:3000/frases", trocaFraseAleatoria)
+        .fail(function(){
+            $("#erro").slideToggle().show();
+            setTimeout(function(){
+                $("#erro").slideToggle().toggle();
+            },1500);
+    }).always(function(){
+            $("#spinner").toggle();
+    });
+    
+    function trocaFraseAleatoria(data) {
+        var frase = $(".frase");
+        var numeroAleatorio = Math.floor(Math.random() * data.length);
+        
+        frase.text(data[numeroAleatorio].texto);
+        atualizaTamanhoFrase();
+        atualizaTempoInicial(data[numeroAleatorio].tempo);
+    }
+}
+
 function inserePlacar() {
     var corpoTabela = $(".placar").find("tbody");
     var usuario = "Dico";
@@ -93,6 +131,22 @@ function inserePlacar() {
     linha.find(".botao-remover").click(removeLinha);
     
     corpoTabela.append(linha);
+    
+    $(".placar").slideDown(500);
+    
+    scrollPlacar();
+}
+
+function scrollPlacar() {
+    var posicaoPlacar = $(".placar").offset().top;
+    
+    $("body").animate({
+        scrollTop: posicaoPlacar + "px"        
+    },1000);
+}
+
+function mostraPlacar() {
+    $(".placar").stop().slideToggle(600);
 }
 
 function novaLinha(usuario, palavras) {
@@ -117,7 +171,11 @@ function novaLinha(usuario, palavras) {
 
 function removeLinha() {
     event.preventDefault();
-    $(this).parent().parent().remove();
+    var linha = $(this).parent().parent();
+    
+    linha.fadeOut(1000, function() {
+        linha.remove();          
+    });
 }
 
 $(document).ready(function(){
@@ -126,5 +184,7 @@ $(document).ready(function(){
     inicializaCronometro();
     inicializaMarcadores();
     $("#botao-reiniciar").click(reiniciaJogo);
+    $("#botao-placar").click(mostraPlacar);
+    $("#botao-frase").click(fraseAleatoria);
     $(".botao-remover").click(removeLinha);
 });
